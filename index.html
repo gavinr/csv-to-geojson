@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>CSV to GeoJSON</title>
+  <meta name="description" content="Convert a CSV to GeoJSON">
+  <meta name="author" content="Gavin Rehkemper (gavinr.com)">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header>
+    <h1>CSV to GeoJSON</h1>
+  </header>
+  
+
+  <a href="https://github.com/gavreh/csv-to-geojson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
+
+  <div class="instructions">
+    <p>Copy in a CSV. First line is the header, and must have a <span title="'lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE'">latitude</span> and <span title="'lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'long', 'Long', 'LONG', 'longitude', 'Longitude', 'LONGITUDE'">longitude</span>.
+    </p>
+  </div>
+
+  <div class="csvForm">
+    <form id="csvInputForm">
+      <textarea rows="10" cols="100" name="csvTextArea" id="csvTextArea">Put CSV here.</textarea><br />
+      <input type="button" name="convertButton" id="convertButton" value="Convert" /><br />
+      <textarea rows="10" cols="100" name="resultTextArea" id="resultTextArea" style="display:none">Result appears here.</textarea>
+    </form>
+
+  </div>
+
+  <footer>
+    Created by <a href="http://gavinr.com" target="_blank">Gavin Rehkemper</a>. <a href="http://twitter.com/gavinrehkemper" target="_blank">@gavinrehkemper</a>
+  </footer>
+  <script src="js/libs/makeClass.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.0.2/jquery.js"></script>
+  <script src="js/libs/GeoJson.js"></script>
+  <script src="js/libs/CsvToJson.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+/* Put your CSS here */
+html, body {
+    margin: 20px;
+}
+
+.instructions > p > span {
+	text-decoration:underline;
+}
+
+footer,
+footer a {
+	color: #C0C0C0;
+	size: 0.8rem;
+	text-align: center;
+}
