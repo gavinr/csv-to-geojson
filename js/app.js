@@ -5,7 +5,7 @@ $(document).ready(function() {
 var App = makeClass();
 App.prototype.init = function() {
 	$("#csvTextArea").click(function(evt) {
-		if($("#csvTextArea").val() === "Put CSV here.") {
+		if ($("#csvTextArea").val() === "Put CSV here.") {
 			$("#csvTextArea").val("");
 		}
 	})
@@ -15,8 +15,8 @@ App.prototype.init = function() {
 
 		var latName = util.getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
 		var lonName = util.getColName(csvObject, ['lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'longitude', 'Longitude', 'LONGITUDE']);
-		console.log("latName:",latName);
-		console.log("lonName:",lonName);
+		console.log("latName:", latName);
+		console.log("lonName:", lonName);
 
 		var massagedData = util.massageData(csvObject);
 		console.log("MassagedData:", massagedData);
@@ -24,9 +24,36 @@ App.prototype.init = function() {
 			Point: [latName, lonName]
 		}, function(geojson) {
 			$("#resultTextArea").show();
+			$("#gistLinkContainer").show();
 			$("#resultTextArea").val(JSON.stringify(geojson));
+
+			$.ajax({
+				url: 'https://api.github.com/gists',
+
+				headers: {
+					"User-Agent": "csv-to-geojson",
+					"Origin": "http://togeojson.com"
+				},
+				type: "POST",
+				cache: false,
+				processData: false,
+				data: JSON.stringify({
+					"description": "Your processed file",
+					"public": true,
+					"files": {
+						"csv-to-geojson.geojson": {
+							"content": $("#resultTextArea").val()
+						}
+					}
+				})
+
+			}).done(function(msg) {
+				console.log("GIS CREATED:", msg);
+				$("#gistLink").attr("href", msg.html_url);
+			});
 		});
 	}, this));
+
 };
 
 var Util = makeClass();
