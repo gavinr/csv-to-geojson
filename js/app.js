@@ -19,17 +19,15 @@ App.prototype.init = function() {
 		console.log("lonName:", lonName);
 
 		var massagedData = util.massageData(csvObject);
-		console.log("MassagedData:", massagedData);
 		GeoJSON.parse(massagedData, {
 			Point: [latName, lonName]
 		}, function(geojson) {
 			$("#resultTextArea").show();
-			$("#gistLinkContainer").show();
+			
 			$("#resultTextArea").val(JSON.stringify(geojson));
 
 			$.ajax({
 				url: 'https://api.github.com/gists',
-
 				headers: {
 					"User-Agent": "csv-to-geojson",
 					"Origin": "http://togeojson.com"
@@ -38,11 +36,11 @@ App.prototype.init = function() {
 				cache: false,
 				processData: false,
 				data: JSON.stringify({
-					"description": "Your processed file",
+					"description": "GEOJSON created by http://csv.togeojson.com",
 					"public": true,
 					"files": {
 						"csv-to-geojson.geojson": {
-							"content": $("#resultTextArea").val()
+							"content": JSON.stringify(geojson)
 						}
 					}
 				})
@@ -50,6 +48,7 @@ App.prototype.init = function() {
 			}).done(function(msg) {
 				console.log("GIS CREATED:", msg);
 				$("#gistLink").attr("href", msg.html_url);
+				$("#gistLinkContainer").show();
 			});
 		});
 	}, this));
@@ -64,7 +63,6 @@ Util.prototype.massageData = function(data) {
 		var dataNoHeader = $.extend(true, [], data);
 		dataNoHeader.splice(0, 1);
 		dataNoHeader.forEach(function(item) {
-			console.log(item);
 			var returnItem = {}, i = 0;
 			data[0].forEach(function(columnName) {
 				returnItem[columnName] = item[i];
