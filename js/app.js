@@ -15,15 +15,16 @@ App.prototype.init = function() {
 
 		var latName = util.getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
 		var lonName = util.getColName(csvObject, ['lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'longitude', 'Longitude', 'LONGITUDE']);
-		console.log("latName:", latName);
-		console.log("lonName:", lonName);
 
 		var massagedData = util.massageData(csvObject);
+		// take that data and cast the lat and lon columns to numbers using parseFloat:
+		massagedData = util.latLonColumnsToNumbers(massagedData, latName, lonName);
+
 		GeoJSON.parse(massagedData, {
 			Point: [latName, lonName]
 		}, function(geojson) {
 			$("#resultTextArea").show();
-			
+
 			$("#resultTextArea").val(JSON.stringify(geojson));
 
 			$.ajax({
@@ -46,7 +47,6 @@ App.prototype.init = function() {
 				})
 
 			}).done(function(msg) {
-				console.log("GIS CREATED:", msg);
 				$("#gistLink").attr("href", msg.html_url);
 				$("#gistLinkContainer").show();
 			});
@@ -74,6 +74,18 @@ Util.prototype.massageData = function(data) {
 	}
 	return null;
 };
+
+Util.prototype.latLonColumnsToNumbers = function(data, latName, lonName) {
+	data.forEach(function(item) {
+		if(item.hasOwnProperty(latName)) {
+			item[latName] = parseFloat(item[latName]);
+		};
+		if(item.hasOwnProperty(lonName)) {
+			item[lonName] = parseFloat(item[lonName]);
+		};
+	});
+	return data;
+}
 
 Util.prototype.getColName = function(data, possibleColumnNames) {
 	if (data && data.length > 2) {
