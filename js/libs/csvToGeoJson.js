@@ -89,7 +89,7 @@ function CSVToArray(strData, strDelimiter) {
 var massageData = function(data) {
 	if (data && data.length > 2) {
 		var returnData = [];
-		var dataNoHeader = $.extend(true, [], data);
+		var dataNoHeader = data.slice();
 		dataNoHeader.splice(0, 1);
 		dataNoHeader.forEach(function(item) {
 			var returnItem = {}, i = 0;
