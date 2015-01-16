@@ -12,7 +12,7 @@ You need
 * [GeoJSON](https://gemnasium.com/npms/geojson) 
 * csvToGeoJSON.js 
 
-When you have those where you want'em, you just load', e.g.
+When you have those where in your desired path, just load'em:
 
 ```
 <script src="js/geojson.min.js"></script>
@@ -21,8 +21,6 @@ When you have those where you want'em, you just load', e.g.
 
 How do I use?
 ------
-
-Well, there's just one function:
 
 ```
 csvToGeoJSON(str, [separator, latitudeHeaderList, longitudeHeaderList])
