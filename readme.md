@@ -41,11 +41,13 @@ Example
      {"type":"Feature",
       "geometry":{"type":"Point",
                   "coordinates":[-47.8828,-15.7939]},
-      "properties":{"Cidade":"Brasilia","Elevation":"1172"}},
+      "properties":{"Cidade":"Brasilia",
+                    "Elevation":"1172"}},
      {"type":"Feature",
       "geometry":{"type":"Point",
                   "coordinates":[-51.23,-30.0331]},
-      "properties":{"Cidade":"Porto Alegre","Elevation":"10"}}]}
+      "properties":{"Cidade":"Porto Alegre",
+                    "Elevation":"10"}}]}
 ```
 
 Credit
