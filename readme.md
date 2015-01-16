@@ -1,7 +1,8 @@
 CSV To GeoJSON
 ================
 
-Need to convert some CSV points to GeoJSON? This is a simple project that helps you do that. It converts a CSV with latitude/longitude into GeoJSON Points. The remaining columns become the point properties.
+Need to convert some CSV points to GeoJSON? 
+This is a simple project that helps you do that: it converts a CSV with latitude/longitude columns into GeoJSON Points. The remaining columns become the point properties.
 
 Example/Production site: http://csv.togeojson.com/
 
