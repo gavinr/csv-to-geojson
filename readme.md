@@ -1,7 +1,7 @@
 CSV To GeoJSON
 ================
 
-Need to convert some CSV points to GeoJSON? This is a simple project that helps you do that.
+Need to convert some CSV points to GeoJSON? This is a simple project that helps you do that. It converts a CSV with latitude/longitude into GeoJSON Points. The remaining columns become the point properties.
 
 Example/Production site: http://csv.togeojson.com/
 
@@ -27,8 +27,7 @@ Well, there's just one function:
 csvToGeoJSON(str, [separator, latitudeHeaderList, longitudeHeaderList])
 ```
 
-Where
-* **str**: is the string containing the csv (format is "header1,header2\nvalue1.1, value2.1\nvalue1.2,value2.2")
+* str: is the string containing the csv (format is "header1,header2\nvalue1.1, value2.1\nvalue1.2,value2.2")
 * separator (optional, default ","): the csv separator character
 * latitudeHeaderList (optional, default ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']): list of the candidates column header to use as latitude. csvToGeoJSON finds the header matching the first list elem. This column's values are used as latitude
 * longitudeHeaderList (optional, default ['lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'longitude', 'Longitude', 'LONGITUDE']): list of the candidates column header to use as longitude
@@ -38,8 +37,16 @@ Example
 
 ```
 > csvToGeoJSON("Cidade,Elevation,longitude,latitude\nBrasilia,1172,-47.8828,-15.7939\nPorto Alegre,10,-51.2300,-30.0331")
-<{"type":"FeatureCollection","features":[{"type":"Feature","geometry":{"type":"Point","coordinates":[-47.8828,-15.7939]},"properties":{"Cidade":"Brasilia","Elevation":"1172"}},{"type":"Feature","geometry":{"type":"Point","coordinates":[-51.23,-30.0331]},"properties":{"Cidade":"Porto
-Alegre","Elevation":"10"}}]}
+<{"type":"FeatureCollection",
+  "features":[
+     {"type":"Feature",
+      "geometry":{"type":"Point",
+                  "coordinates":[-47.8828,-15.7939]},
+      "properties":{"Cidade":"Brasilia","Elevation":"1172"}},
+     {"type":"Feature",
+      "geometry":{"type":"Point",
+                  "coordinates":[-51.23,-30.0331]},
+      "properties":{"Cidade":"Porto Alegre","Elevation":"10"}}]}
 ```
 
 Credit
