@@ -11,8 +11,6 @@ and you are ready to rock 'n' roll with:
 csvToGeoJSON(str, [separator, latitudeHeaderList, longitudeHeaderList])
 ```
 
-Original doc modified:
-=====
 CSV To GeoJSON
 ================
 
