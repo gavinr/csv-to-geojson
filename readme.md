@@ -11,7 +11,7 @@ and you are ready to rock 'n' roll with:
 csvToGeoJSON(str, [separator, latitudeHeaderList, longitudeHeaderList])
 ```
 
-CSV To GeoJSON
+Forked CSV To GeoJSON
 ================
 
 Need to convert some CSV points to GeoJSON? 
