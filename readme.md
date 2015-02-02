@@ -1,3 +1,17 @@
+Forked Version of [CSV To GeoJSON](https://github.com/gavreh/csv-to-geojson)
+================
+This is a fork of [CSV To GeoJSON](https://github.com/gavreh/csv-to-geojson). It has been packaged into a library to ease the integration with other projects. Just grab: 
+
+* [GeoJSON](https://gemnasium.com/npms/geojson) 
+* csvToGeoJSON.js in this repo
+
+and you are ready to rock 'n' roll with:
+
+```
+csvToGeoJSON(str, [separator, latitudeHeaderList, longitudeHeaderList])
+```
+
+Original doc modified:
 CSV To GeoJSON
 ================
 
