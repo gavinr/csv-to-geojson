@@ -8,9 +8,9 @@ App.prototype.init = function() {
 		if ($("#csvTextArea").val() === "Put CSV here.") {
 			$("#csvTextArea").val("");
 		}
-	})
+	});
 	$("#convertButton").click($.proxy(function(evt) {
-		var csvObject = CSVToArray($("#csvTextArea").val());
+		var csvObject = CSVToArray($.trim($("#csvTextArea").val()));
 		var util = new Util();
 
 		var latName = util.getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
@@ -29,10 +29,6 @@ App.prototype.init = function() {
 
 			$.ajax({
 				url: 'https://api.github.com/gists',
-				headers: {
-					"User-Agent": "csv-to-geojson",
-					"Origin": "http://togeojson.com"
-				},
 				type: "POST",
 				cache: false,
 				processData: false,
@@ -79,13 +75,13 @@ Util.prototype.latLonColumnsToNumbers = function(data, latName, lonName) {
 	data.forEach(function(item) {
 		if(item.hasOwnProperty(latName)) {
 			item[latName] = parseFloat(item[latName]);
-		};
+		}
 		if(item.hasOwnProperty(lonName)) {
 			item[lonName] = parseFloat(item[lonName]);
-		};
+		}
 	});
 	return data;
-}
+};
 
 Util.prototype.getColName = function(data, possibleColumnNames) {
 	if (data && data.length > 2) {
@@ -100,4 +96,4 @@ Util.prototype.getColName = function(data, possibleColumnNames) {
 		// 	}
 		// });
 	}
-}
+};
