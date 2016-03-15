@@ -1,0 +1,27 @@
+{
+  "name": "csv-to-geojson",
+  "version": "1.0.0",
+  "description": "Convert a CSV file to GeoJSON",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gavinr/csv-to-geojson.git"
+  },
+  "keywords": [
+    "geojson",
+    "csv"
+  ],
+  "author": "Gavin Rehkemper <gavin@gavinr.com> (http://gavinr.com)",
+  "license": "Creative Commons Attribution-ShareAlike 3.0 Unported",
+  "bugs": {
+    "url": "https://github.com/gavinr/csv-to-geojson/issues"
+  },
+  "homepage": "https://github.com/gavinr/csv-to-geojson#readme",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-gh-pages": "^1.0.0"
+  }
+}
