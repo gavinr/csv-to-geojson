@@ -1,99 +1,101 @@
-$(document).ready(function() {
-	var app = new App("Gavin", "Rehkemper");
+var csvTextArea       = document.getElementById('csvTextArea');
+var convertButton     = document.getElementById('convertButton');
+var resultTextArea    = document.getElementById('resultTextArea');
+var gistLink          = document.getElementById('gistLink');
+var gistLinkContainer = document.getElementById('gistLinkContainer');
+var pretty            = document.getElementById('pretty');
+
+csvTextArea.addEventListener('click', function() {
+	if (this.value === 'Put CSV here.') {
+		this.value = '';
+	}
 });
 
-var App = makeClass();
-App.prototype.init = function() {
-	$("#csvTextArea").click(function(evt) {
-		if ($("#csvTextArea").val() === "Put CSV here.") {
-			$("#csvTextArea").val("");
-		}
-	});
-	$("#convertButton").click($.proxy(function(evt) {
-		var csvObject = CSVToArray($.trim($("#csvTextArea").val()));
-		var util = new Util();
+convertButton.addEventListener('click', function() {
+	var csvObject = CSVToArray(csvTextArea.value.trim());
+	var latName   = getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
+	var lonName   = getColName(csvObject, ['lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'longitude', 'Longitude', 'LONGITUDE']);
 
-		var latName = util.getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
-		var lonName = util.getColName(csvObject, ['lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'longitude', 'Longitude', 'LONGITUDE']);
+	GeoJSON.parse(latLonColumnsToNumbers(massageData(csvObject), latName, lonName), {
+		Point: [latName, lonName]
+	}, function(geojson) {
+		var result = JSON.stringify(geojson, null, pretty.checked ? 2 : undefined);
 
-		var massagedData = util.massageData(csvObject);
-		// take that data and cast the lat and lon columns to numbers using parseFloat:
-		massagedData = util.latLonColumnsToNumbers(massagedData, latName, lonName);
+		resultTextArea.value = result;
+		resultTextArea.style.display = '';
 
-		GeoJSON.parse(massagedData, {
-			Point: [latName, lonName]
-		}, function(geojson) {
-			$("#resultTextArea").show();
-
-			$("#resultTextArea").val(JSON.stringify(geojson));
-
-			$.ajax({
-				url: 'https://api.github.com/gists',
-				type: "POST",
-				cache: false,
-				processData: false,
-				data: JSON.stringify({
-					"description": "GEOJSON created by http://csv.togeojson.com",
-					"public": true,
-					"files": {
-						"csv-to-geojson.geojson": {
-							"content": JSON.stringify(geojson)
+		post(uncache('https://api.github.com/gists'), true)
+			.data({
+					'description': 'GEOJSON created by http://csv.togeojson.com',
+					'public': true,
+					'files': {
+						'csv-to-geojson.geojson': {
+							'content': result
 						}
 					}
-				})
-
-			}).done(function(msg) {
-				$("#gistLink").attr("href", msg.html_url);
-				$("#gistLinkContainer").show();
+			})
+			.done(function(msg) {
+				gistLink.setAttribute('href', msg.html_url);
+				gistLinkContainer.style.display = '';
 			});
+	});
+});
+
+function massageData(data) {
+	if (!data || !data.length) return null;
+  var firstRow = data[0];
+	var map      = data.map(function(item) {
+		var returnItem = {}, i = 0;
+    firstRow.forEach(function(columnName) {
+			returnItem[columnName] = item[i++];
 		});
-	}, this));
+		return returnItem;
+	});
+	//get rid of header
+  map.shift();
+	return map;
+}
 
-};
-
-var Util = makeClass();
-
-Util.prototype.massageData = function(data) {
-	if (data && data.length > 2) {
-		var returnData = [];
-		var dataNoHeader = $.extend(true, [], data);
-		dataNoHeader.splice(0, 1);
-		dataNoHeader.forEach(function(item) {
-			var returnItem = {}, i = 0;
-			data[0].forEach(function(columnName) {
-				returnItem[columnName] = item[i];
-				i++;
-			}, this);
-			returnData.push(returnItem);
-		}, this);
-		return returnData;
-	}
-	return null;
-};
-
-Util.prototype.latLonColumnsToNumbers = function(data, latName, lonName) {
-	data.forEach(function(item) {
+function latLonColumnsToNumbers(data, latName, lonName) {
+	return data.map(function(item) {
 		if(item.hasOwnProperty(latName)) {
 			item[latName] = parseFloat(item[latName]);
 		}
 		if(item.hasOwnProperty(lonName)) {
 			item[lonName] = parseFloat(item[lonName]);
 		}
+		return item;
 	});
-	return data;
-};
+}
 
-Util.prototype.getColName = function(data, possibleColumnNames) {
-	if (data && data.length > 2) {
-		for (var i = 0; i < data[0].length; i++) {
-			if (possibleColumnNames.indexOf(data[0][i]) !== -1) {
-				return data[0][i];
-			}
+function getColName(data, possibleColumnNames) {
+	if (!data || !data.length) return null;
+	for (var i = 0; i < data[0].length; i++) {
+		if (possibleColumnNames.indexOf(data[0][i]) !== -1) {
+			return data[0][i];
 		}
-		// data[0].forEach(function(columnName) {
-		// 	if (possibleColumnNames.indexOf(columnName) !== -1) {
-		// 		return columnName;
-		// 	}
-		// });
 	}
-};
+	return null;
+}
+
+function post(url) {
+	var request = new XMLHttpRequest();
+	request.open('POST', url, true);
+	request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+	return {
+		data: function(data) {
+			request.send(JSON.stringify(data));
+			return this;
+		},
+		done: function(done) {
+			request.onload = function() {
+				done(request.responseText);
+			};
+			return this;
+		}
+	};
+}
+
+function uncache(url) {
+	return url + (url.match(/[?]/) ? '&' : '?') + '_now=' + Date.now();
+}
