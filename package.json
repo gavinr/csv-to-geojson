@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/gavinr/csv-to-geojson#readme",
   "devDependencies": {
+    "eslint": "^2.4.0",
     "grunt": "^0.4.5",
     "grunt-gh-pages": "^1.0.0"
   }
