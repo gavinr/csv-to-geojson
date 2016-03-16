@@ -25,20 +25,20 @@ convertButton.addEventListener('click', function() {
     resultTextArea.value = result;
     resultTextArea.style.display = '';
 
-    post(uncache('https://api.github.com/gists'), true)
-      .data({
-        'description': 'GEOJSON created by http://csv.togeojson.com',
-        'public': true,
-        'files': {
-          'csv-to-geojson.geojson': {
-            'content': result
-          }
-        }
-      })
-      .done(function(msg) {
-        gistLink.setAttribute('href', msg.html_url);
-        gistLinkContainer.style.display = '';
-      });
+    // post(uncache('https://api.github.com/gists'), true)
+    //   .data({
+    //     'description': 'GEOJSON created by http://csv.togeojson.com',
+    //     'public': true,
+    //     'files': {
+    //       'csv-to-geojson.geojson': {
+    //         'content': result
+    //       }
+    //     }
+    //   })
+    //   .done(function(msg) {
+    //     gistLink.setAttribute('href', msg.html_url);
+    //     gistLinkContainer.style.display = '';
+    //   });
   });
 });
 
@@ -80,24 +80,24 @@ function getColName(data, possibleColumnNames) {
   return null;
 }
 
-function post(url) {
-  var request = new XMLHttpRequest();
-  request.open('POST', url, true);
-  request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-  return {
-    data: function(data) {
-      request.send(JSON.stringify(data));
-      return this;
-    },
-    done: function(done) {
-      request.onload = function() {
-        done(request.responseText);
-      };
-      return this;
-    }
-  };
-}
+// function post(url) {
+//   var request = new XMLHttpRequest();
+//   request.open('POST', url, true);
+//   request.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+//   return {
+//     data: function(data) {
+//       request.send(JSON.stringify(data));
+//       return this;
+//     },
+//     done: function(done) {
+//       request.onload = function() {
+//         done(request.responseText);
+//       };
+//       return this;
+//     }
+//   };
+// }
 
-function uncache(url) {
-  return url + (url.match(/[?]/) ? '&' : '?') + '_now=' + Date.now();
-}
+// function uncache(url) {
+//   return url + (url.match(/[?]/) ? '&' : '?') + '_now=' + Date.now();
+// }

@@ -9,7 +9,7 @@ module.exports = {
       2
     ],
     "linebreak-style": [
-      2,
+      1,
       "unix"
     ],
     "quotes": [
