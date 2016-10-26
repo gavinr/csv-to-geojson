@@ -15,7 +15,7 @@ Credit
 Feedback
 --------
 
-File bug reports here on GitHub or contact [Gavin Rehkemper](http://github.com/gavreh) [(gavinrehkemper @ twitter)](http://twitter.com/gavinrehkemper) for anything else.
+File bug reports here on GitHub or contact [Gavin Rehkemper](http://github.com/gavinr) [(gavinrehkemper @ twitter)](http://twitter.com/gavinrehkemper) for anything else.
 
 License
 -------
