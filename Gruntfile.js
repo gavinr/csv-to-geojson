@@ -4,7 +4,7 @@ module.exports = function(grunt) {
   grunt.initConfig({
     'gh-pages': {
       options: {},
-      src: ['**']
+      src: ['**', '!**/node_modules/**']
     }
   });
 
