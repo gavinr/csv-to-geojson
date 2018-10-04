@@ -80,6 +80,25 @@ function CSVToArray(strData, strDelimiter) {
         arrData[arrData.length - 1].push(strMatchedValue.trim());
     }
 
+    // For first row only (column headers), sanitize text
+    // by removing leading and trailing spaces
+    arrData[0].forEach(function(text, index) {
+        var sanitizedText = text;
+        if (text.charAt(0) === " ") {
+            
+            // remove leading spaces
+            sanitizedText = text.slice(1);
+        }
+        if (text.charAt(text.length - 1) === " ") {
+
+            // remove trailing spaces
+            sanitizedText = sanitizedText.slice(0, -1);
+        }
+
+        // update value in array
+        arrData[0][index] = sanitizedText;
+    })
+
     // Return the parsed data.
     return (arrData);
 }
