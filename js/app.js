@@ -1,4 +1,4 @@
-/*global CSVToArray, GeoJSON */
+/*global Papa, GeoJSON */
 var csvTextArea = document.getElementById('csvTextArea');
 var convertButton = document.getElementById('convertButton');
 var resultTextArea = document.getElementById('resultTextArea');
@@ -13,7 +13,7 @@ csvTextArea.addEventListener('click', function() {
 });
 
 convertButton.addEventListener('click', function() {
-  var csvObject = CSVToArray(csvTextArea.value.trim());
+  var csvObject = Papa.parse(csvTextArea.value.trim()).data;
   var latName = getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
   var lonName = getColName(csvObject, ['lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'longitude', 'Longitude', 'LONGITUDE']);
 
