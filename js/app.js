@@ -39,21 +39,6 @@ csvInputForm.addEventListener("submit", function (evt) {
 
       resultTextArea.value = result;
       resultTextArea.style.display = "";
-
-      // post(uncache('https://api.github.com/gists'), true)
-      //   .data({
-      //     'description': 'GEOJSON created by http://csv.togeojson.com',
-      //     'public': true,
-      //     'files': {
-      //       'csv-to-geojson.geojson': {
-      //         'content': result
-      //       }
-      //     }
-      //   })
-      //   .done(function(msg) {
-      //     gistLink.setAttribute('href', msg.html_url);
-      //     gistLinkContainer.style.display = '';
-      //   });
     }
   );
 });
