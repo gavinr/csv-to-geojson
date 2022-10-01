@@ -1,36 +1,56 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <title>CSV to GeoJSON</title>
-  <meta name="description" content="Convert a CSV to GeoJSON">
-  <meta name="author" content="Gavin Rehkemper (gavinr.com)">
-  <link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-  <header>
-    <h1>CSV to GeoJSON</h1>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <title>CSV to GeoJSON</title>
+    <meta name="description" content="Convert a CSV file to GeoJSON" />
+    <meta name="author" content="Gavin Rehkemper (gavinr.com)" />
+    <script src="https://cdn.tailwindcss.com"></script>
+  </head>
+  <body class="pt-12 px-4 max-w-7xl mx-auto">
+    <header>
+      <h1 class="center text-4xl mb-2">CSV to GeoJSON</h1>
+    </header>
 
-  <a href="https://github.com/gavreh/csv-to-geojson"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_green_007200.png" alt="Fork me on GitHub"></a>
-
-  <div class="instructions">
-    <p>Copy in a CSV. First line is the header, and must have a <span title="'lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE'">latitude</span> and <span title="'lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'long', 'Long', 'LONG', 'longitude', 'Longitude', 'LONGITUDE'">longitude</span>.
+    <p class="mb-2">
+      Copy in a CSV. First line is the header, and must have a
+      <span class="underline" title="'lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE'">latitude</span>
+      and
+      <span
+        class="underline"
+        title="'lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'long', 'Long', 'LONG', 'longitude', 'Longitude', 'LONGITUDE'"
+        >longitude</span
+      >.
     </p>
-  </div>
 
-  <div class="csvForm">
     <form id="csvInputForm">
-      <textarea rows="10" cols="100" name="csvTextArea" id="csvTextArea" spellcheck="false">Put CSV here.</textarea><br />
-      <label><input type="checkbox" id="pretty">Pretty Print?</label><br /><br />
-      <input type="button" name="convertButton" id="convertButton" value="Convert" /><br />
-      <div class="gistLink" id="gistLinkContainer" style="display:none"><a href="" id="gistLink" target="_blank">Click to see map (creates a public anonymous GitHib Gist).</a></div>
-      <textarea rows="10" cols="100" name="resultTextArea" id="resultTextArea" style="display:none" spellcheck="false">Result appears here.</textarea>
+      <textarea class="border-2 w-full h-64 p-2" name="csvTextArea" id="csvTextArea" spellcheck="false">
+Put CSV here.</textarea
+      >
+
+      <label><input type="checkbox" id="pretty" /> Pretty Print</label>
+      <button type="submit" class="float-right border p-2 m-2">Convert</button>
+
+      <textarea
+        class="border-2 w-full h-64 p-2"
+        rows="10"
+        cols="100"
+        name="resultTextArea"
+        id="resultTextArea"
+        style="display: none"
+        spellcheck="false"
+      >
+          Result appears here.
+        </textarea
+      >
     </form>
-  </div>
-  
-  <script src="js/libs/geojson.min.js"></script>
-  <script src="js/libs/papaparse.min.js"></script>
-  <script src="js/app.js"></script>
-</body>
+
+    <div class="w-full text-center text-gray-400 my-6">
+      <a href="https://github.com/gavinr/csv-to-geojson">More info on GitHub</a>
+    </div>
+
+    <script src="js/libs/geojson.min.js"></script>
+    <script src="js/libs/papaparse.min.js"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>

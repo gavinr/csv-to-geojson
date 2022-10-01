@@ -1,8 +1,6 @@
 # CSV To GeoJSON
 
-Need to convert some CSV points to GeoJSON? This is a simple project that helps you do that.
-
-Example/Production site: <http://csv.togeojson.com/>
+A simple webpage to convert a CSV to GeoJSON: <http://csv.togeojson.com/>
 
 ## Credit
 
