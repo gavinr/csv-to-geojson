@@ -1,54 +1,70 @@
 /*global Papa, GeoJSON */
-var csvTextArea = document.getElementById('csvTextArea');
-var convertButton = document.getElementById('convertButton');
-var resultTextArea = document.getElementById('resultTextArea');
-var gistLink = document.getElementById('gistLink');
-var gistLinkContainer = document.getElementById('gistLinkContainer');
-var pretty = document.getElementById('pretty');
+var csvTextArea = document.getElementById("csvTextArea");
+var csvInputForm = document.getElementById("csvInputForm");
+var resultTextArea = document.getElementById("resultTextArea");
+var gistLink = document.getElementById("gistLink");
+var gistLinkContainer = document.getElementById("gistLinkContainer");
+var pretty = document.getElementById("pretty");
 
-csvTextArea.addEventListener('click', function() {
-  if (this.value === 'Put CSV here.') {
-    this.value = '';
+csvTextArea.addEventListener("click", function () {
+  if (this.value === "Put CSV here.") {
+    this.value = "";
   }
 });
 
-convertButton.addEventListener('click', function() {
+csvInputForm.addEventListener("submit", function (evt) {
+  evt.preventDefault();
+
   var csvObject = Papa.parse(csvTextArea.value.trim(), { dynamicTyping: true }).data;
-  var latName = getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
-  var lonName = getColName(csvObject, ['lng', 'Lng', 'LNG', 'lon', 'Lon', 'LON', 'longitude', 'Longitude', 'LONGITUDE']);
+  var latName = getColName(csvObject, ["lat", "Lat", "LAT", "latitude", "Latitude", "LATITUDE"]);
+  var lonName = getColName(csvObject, [
+    "lng",
+    "Lng",
+    "LNG",
+    "lon",
+    "Lon",
+    "LON",
+    "longitude",
+    "Longitude",
+    "LONGITUDE",
+  ]);
 
-  GeoJSON.parse(latLonColumnsToNumbers(massageData(csvObject), latName, lonName), {
-    Point: [latName, lonName]
-  }, function(geojson) {
-    var result = JSON.stringify(geojson, null, pretty.checked ? 2 : undefined);
+  GeoJSON.parse(
+    latLonColumnsToNumbers(massageData(csvObject), latName, lonName),
+    {
+      Point: [latName, lonName],
+    },
+    function (geojson) {
+      var result = JSON.stringify(geojson, null, pretty.checked ? 2 : undefined);
 
-    resultTextArea.value = result;
-    resultTextArea.style.display = '';
+      resultTextArea.value = result;
+      resultTextArea.style.display = "";
 
-    // post(uncache('https://api.github.com/gists'), true)
-    //   .data({
-    //     'description': 'GEOJSON created by http://csv.togeojson.com',
-    //     'public': true,
-    //     'files': {
-    //       'csv-to-geojson.geojson': {
-    //         'content': result
-    //       }
-    //     }
-    //   })
-    //   .done(function(msg) {
-    //     gistLink.setAttribute('href', msg.html_url);
-    //     gistLinkContainer.style.display = '';
-    //   });
-  });
+      // post(uncache('https://api.github.com/gists'), true)
+      //   .data({
+      //     'description': 'GEOJSON created by http://csv.togeojson.com',
+      //     'public': true,
+      //     'files': {
+      //       'csv-to-geojson.geojson': {
+      //         'content': result
+      //       }
+      //     }
+      //   })
+      //   .done(function(msg) {
+      //     gistLink.setAttribute('href', msg.html_url);
+      //     gistLinkContainer.style.display = '';
+      //   });
+    }
+  );
 });
 
 function massageData(data) {
   if (!data || !data.length) return null;
   var firstRow = data[0];
-  var map = data.map(function(item) {
+  var map = data.map(function (item) {
     var returnItem = {},
       i = 0;
-    firstRow.forEach(function(columnName) {
+    firstRow.forEach(function (columnName) {
       returnItem[columnName] = item[i++];
     });
     return returnItem;
@@ -59,7 +75,7 @@ function massageData(data) {
 }
 
 function latLonColumnsToNumbers(data, latName, lonName) {
-  return data.map(function(item) {
+  return data.map(function (item) {
     if (item.hasOwnProperty(latName)) {
       item[latName] = parseFloat(item[latName]);
     }
