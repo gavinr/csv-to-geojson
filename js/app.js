@@ -1,33 +1,33 @@
 /*global Papa, GeoJSON, L */
-var csvTextArea = document.getElementById('csvTextArea');
-var csvInputForm = document.getElementById('csvInputForm');
-var resultTextArea = document.getElementById('resultTextArea');
+var csvTextArea = document.getElementById("csvTextArea");
+var csvInputForm = document.getElementById("csvInputForm");
+var resultTextArea = document.getElementById("resultTextArea");
 // var gistLink = document.getElementById("gistLink");
 // var gistLinkContainer = document.getElementById("gistLinkContainer");
-var pretty = document.getElementById('pretty');
+var pretty = document.getElementById("pretty");
 var layer = null;
 
-const map = L.map('leafletMap', {
+const map = L.map("leafletMap", {
   center: [47.41322, -1.219482],
   zoom: 8
 });
-L.esri.basemapLayer('Topographic').addTo(map);
+L.esri.basemapLayer("Topographic").addTo(map);
 
-csvInputForm.addEventListener('submit', function (evt) {
+csvInputForm.addEventListener("submit", function (evt) {
   evt.preventDefault();
 
   var csvObject = Papa.parse(csvTextArea.value.trim(), { dynamicTyping: true }).data;
-  var latName = getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
+  var latName = getColName(csvObject, ["lat", "Lat", "LAT", "latitude", "Latitude", "LATITUDE"]);
   var lonName = getColName(csvObject, [
-    'lng',
-    'Lng',
-    'LNG',
-    'lon',
-    'Lon',
-    'LON',
-    'longitude',
-    'Longitude',
-    'LONGITUDE',
+    "lng",
+    "Lng",
+    "LNG",
+    "lon",
+    "Lon",
+    "LON",
+    "longitude",
+    "Longitude",
+    "LONGITUDE",
   ]);
 
   GeoJSON.parse(
@@ -38,8 +38,8 @@ csvInputForm.addEventListener('submit', function (evt) {
     function (geojson) {
       var result = JSON.stringify(geojson, null, pretty.checked ? 2 : undefined);
       resultTextArea.value = result;
-      document.querySelectorAll('.invisible').forEach((el) => {
-        el.classList.remove('invisible');
+      document.querySelectorAll(".invisible").forEach((el) => {
+        el.classList.remove("invisible");
       });
       addGeoJSONData(geojson,map);
 
@@ -79,10 +79,10 @@ function massageData(data) {
 
 function latLonColumnsToNumbers(data, latName, lonName) {
   return data.map(function (item) {
-    if (Object.hasOwn(item,'latname')) {
+    if (Object.hasOwn(item,"latname")) {
       item[latName] = parseFloat(item[latName]);
     }
-    if (Object.hasOwn(item,'lonName')) {
+    if (Object.hasOwn(item,"lonName")) {
       item[lonName] = parseFloat(item[lonName]);
     }
     return item;
@@ -126,7 +126,7 @@ function addGeoJSONData(geojsonData, mapObject) {
   }
   layer = L.geoJSON(geojsonData, {
     onEachFeature: function (feature, layer) {
-      let popupString = '';
+      let popupString = "";
       for (let key in feature.properties) {
         popupString = `${popupString}<strong>${key}</strong>: ${feature.properties[key]}<br />`;
       }
