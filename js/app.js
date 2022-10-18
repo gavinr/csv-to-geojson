@@ -1,32 +1,33 @@
-/*global Papa, GeoJSON */
-var csvTextArea = document.getElementById("csvTextArea");
-var csvInputForm = document.getElementById("csvInputForm");
-var resultTextArea = document.getElementById("resultTextArea");
-var gistLink = document.getElementById("gistLink");
-var gistLinkContainer = document.getElementById("gistLinkContainer");
-var pretty = document.getElementById("pretty");
+/*global Papa, GeoJSON, L */
+var csvTextArea = document.getElementById('csvTextArea');
+var csvInputForm = document.getElementById('csvInputForm');
+var resultTextArea = document.getElementById('resultTextArea');
+// var gistLink = document.getElementById("gistLink");
+// var gistLinkContainer = document.getElementById("gistLinkContainer");
+var pretty = document.getElementById('pretty');
+var layer = null;
 
-csvTextArea.addEventListener("click", function () {
-  if (this.value === "Put CSV here.") {
-    this.value = "";
-  }
+const map = L.map('leafletMap', {
+  center: [47.41322, -1.219482],
+  zoom: 8
 });
+L.esri.basemapLayer('Topographic').addTo(map);
 
-csvInputForm.addEventListener("submit", function (evt) {
+csvInputForm.addEventListener('submit', function (evt) {
   evt.preventDefault();
 
   var csvObject = Papa.parse(csvTextArea.value.trim(), { dynamicTyping: true }).data;
-  var latName = getColName(csvObject, ["lat", "Lat", "LAT", "latitude", "Latitude", "LATITUDE"]);
+  var latName = getColName(csvObject, ['lat', 'Lat', 'LAT', 'latitude', 'Latitude', 'LATITUDE']);
   var lonName = getColName(csvObject, [
-    "lng",
-    "Lng",
-    "LNG",
-    "lon",
-    "Lon",
-    "LON",
-    "longitude",
-    "Longitude",
-    "LONGITUDE",
+    'lng',
+    'Lng',
+    'LNG',
+    'lon',
+    'Lon',
+    'LON',
+    'longitude',
+    'Longitude',
+    'LONGITUDE',
   ]);
 
   GeoJSON.parse(
@@ -36,9 +37,11 @@ csvInputForm.addEventListener("submit", function (evt) {
     },
     function (geojson) {
       var result = JSON.stringify(geojson, null, pretty.checked ? 2 : undefined);
-
       resultTextArea.value = result;
-      resultTextArea.style.display = "";
+      document.querySelectorAll('.invisible').forEach((el) => {
+        el.classList.remove('invisible');
+      });
+      addGeoJSONData(geojson,map);
 
       // post(uncache('https://api.github.com/gists'), true)
       //   .data({
@@ -76,10 +79,10 @@ function massageData(data) {
 
 function latLonColumnsToNumbers(data, latName, lonName) {
   return data.map(function (item) {
-    if (item.hasOwnProperty(latName)) {
+    if (Object.hasOwn(item,'latname')) {
       item[latName] = parseFloat(item[latName]);
     }
-    if (item.hasOwnProperty(lonName)) {
+    if (Object.hasOwn(item,'lonName')) {
       item[lonName] = parseFloat(item[lonName]);
     }
     return item;
@@ -117,3 +120,19 @@ function getColName(data, possibleColumnNames) {
 // function uncache(url) {
 //   return url + (url.match(/[?]/) ? '&' : '?') + '_now=' + Date.now();
 // }
+function addGeoJSONData(geojsonData, mapObject) {
+  if (layer){
+    mapObject.removeLayer(layer);
+  }
+  layer = L.geoJSON(geojsonData, {
+    onEachFeature: function (feature, layer) {
+      let popupString = '';
+      for (let key in feature.properties) {
+        popupString = `${popupString}<strong>${key}</strong>: ${feature.properties[key]}<br />`;
+      }
+      layer.bindPopup(popupString);
+    },
+  });
+  mapObject.fitBounds(layer.getBounds());
+  layer.addTo(mapObject);
+}
