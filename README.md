@@ -2,6 +2,8 @@
 
 A simple webpage to convert a CSV to GeoJSON: <http://csv.togeojson.com/>
 
+[![screenshot](screenshot.png)](https://csv.togeojson.com/)
+
 ## Credit
 
 * Using CSV to JSON function from <http://stackoverflow.com/a/1293163/2039> (License <http://creativecommons.org/licenses/by-sa/3.0/>)
