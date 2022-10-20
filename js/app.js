@@ -9,7 +9,7 @@ var layer = null;
 
 const map = L.map("leafletMap", {
   center: [47.41322, -1.219482],
-  zoom: 8
+  zoom: 8,
 });
 L.esri.basemapLayer("Topographic").addTo(map);
 
@@ -41,7 +41,7 @@ csvInputForm.addEventListener("submit", function (evt) {
       document.querySelectorAll(".invisible").forEach((el) => {
         el.classList.remove("invisible");
       });
-      addGeoJSONData(geojson,map);
+      addGeoJSONData(geojson, map);
 
       // post(uncache('https://api.github.com/gists'), true)
       //   .data({
@@ -79,10 +79,10 @@ function massageData(data) {
 
 function latLonColumnsToNumbers(data, latName, lonName) {
   return data.map(function (item) {
-    if (Object.hasOwn(item,"latname")) {
+    if (Object.hasOwn(item, "latname")) {
       item[latName] = parseFloat(item[latName]);
     }
-    if (Object.hasOwn(item,"lonName")) {
+    if (Object.hasOwn(item, "lonName")) {
       item[lonName] = parseFloat(item[lonName]);
     }
     return item;
@@ -121,7 +121,7 @@ function getColName(data, possibleColumnNames) {
 //   return url + (url.match(/[?]/) ? '&' : '?') + '_now=' + Date.now();
 // }
 function addGeoJSONData(geojsonData, mapObject) {
-  if (layer){
+  if (layer) {
     mapObject.removeLayer(layer);
   }
   layer = L.geoJSON(geojsonData, {

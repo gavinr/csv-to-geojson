@@ -6,7 +6,7 @@
     <meta name="description" content="Convert a CSV file to GeoJSON" />
     <meta name="author" content="Gavin Rehkemper (gavinr.com)" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="css/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1/dist/leaflet.css"" />
   </head>
   <body class="pt-12 px-4 max-w-7xl mx-auto">
     <header>
@@ -25,32 +25,38 @@
     </p>
 
     <div class="columns-2">
-        <form id="csvInputForm">
-          <textarea class="border-2 w-full h-64 p-2" name="csvTextArea" id="csvTextArea" spellcheck="false" placeholder="Put CSV here."></textarea
-          >
-          <label><input type="checkbox" id="pretty" /> Pretty Print</label>
-          <button type="submit" class="float-right border p-2 m-2">Convert</button>
-          <textarea
-            class="border-2 w-full h-64 p-2 invisible"
-            name="resultTextArea"
-            id="resultTextArea"
-            spellcheck="false"
-          >
+      <form id="csvInputForm">
+        <textarea
+          class="border-2 w-full h-64 p-2"
+          name="csvTextArea"
+          id="csvTextArea"
+          spellcheck="false"
+          placeholder="Put CSV here."
+        ></textarea>
+        <label><input type="checkbox" id="pretty" /> Pretty Print</label>
+        <button type="submit" class="float-right border p-2 m-2">Convert</button>
+        <textarea
+          class="border-2 w-full h-64 p-2 invisible"
+          name="resultTextArea"
+          id="resultTextArea"
+          spellcheck="false"
+        >
               Result appears here.
             </textarea
-          >
-        </form>
+        >
+      </form>
       <div id="leafletMap" class="invisible h-[632px]"></div>
     </div>
-  
+
     <div class="w-full text-center text-gray-400 my-6">
       <a href="https://github.com/gavinr/csv-to-geojson">More info on GitHub</a>
     </div>
 
     <script src="js/libs/geojson.min.js"></script>
     <script src="js/libs/papaparse.min.js"></script>
-    <script src="js/libs/leaflet.js"></script>
-    <script src="js/libs/esri-leaflet.js"></script>
+
+    <script src="https://unpkg.com/leaflet@1/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/esri-leaflet@3/dist/esri-leaflet.js"></script>
     <script src="js/app.js"></script>
   </body>
 </html>
